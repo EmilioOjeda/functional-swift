@@ -1,0 +1,39 @@
+disabled_rules:
+  - large_tuple
+  - syntactic_sugar # Improving readability by being explicit when working with functional types.
+
+analyzer_rules:
+  - explicit_self
+  - unused_declaration
+  - unused_import
+
+included:
+  - Sources
+  - Tests
+  - Package.swift
+
+line_length:
+  ignores_comments: true
+  warning: 140
+  error: 160
+
+identifier_name:
+  excluded: # These are names commonly used in functional contexts.
+    - a
+    - b
+    - c
+    - d
+    - e
+    - f
+    - g
+    - fa
+    - fb
+    - fc
+    - fd
+    - fe
+    - ff
+    - fg
+
+type_name:
+  excluded:
+    - Or

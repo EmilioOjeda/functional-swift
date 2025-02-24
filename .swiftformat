@@ -1,0 +1,12 @@
+# format
+
+--commas inline
+--ifdef no-indent
+--self init-only
+--xcodeindentation enabled
+
+# rules
+
+--disable typeSugar # being explicit when dealing with functional types
+--disable spaceAroundOperators # disabling this rule until the following issue is fixed: https://github.com/nicklockwood/SwiftFormat/issues/2000
+--disable yodaConditions

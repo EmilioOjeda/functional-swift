@@ -1,4 +1,4 @@
-name: Build
+name: 🛠️
 
 on:
   push:
@@ -11,26 +11,22 @@ env:
   DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
 jobs:
-  build:
+  Build:
     runs-on: macos-15
     steps:
-      - name: Setup Swift
-        uses: swift-actions/setup-swift@v2
-        with:
-          swift-version: 6.0
-      - name: Swift Version
-        run: swift --version
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Swift Setup
+        uses: ./.github/actions/swift-setup
       - name: SwiftLint
-        run: |
-          brew install swiftlint 2>/dev/null && true
-          swiftlint --version
-          swiftlint lint --strict
+        run: swiftlint lint --strict
       - name: Build
         run: swift build
+
+  Test:
+    runs-on: macos-15
+    needs: Build
+    steps:
+      - name: Swift Setup
+        uses: ./.github/actions/swift-setup
       - name: Test
         run: swift test --enable-code-coverage
       - name: Code Coverage

@@ -1,0 +1,20 @@
+name: Swift Setup
+description: 'Setup the environment for Swift development'
+
+runs:
+  using: "composite"
+  steps:
+  - name: Checkout
+    uses: actions/checkout@v4
+    with:
+      token: ${{ secrets.ACCESS_TOKEN }}
+  - name: Pull Swift
+    uses: swift-actions/setup-swift@v2
+    with:
+      swift-version: 6.0    
+  - name: Swift Version
+    run: swift --version
+  - name: Install SwiftLint
+    run: |
+      brew install swiftlint 2>/dev/null && true
+      swiftlint --version

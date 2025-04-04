@@ -1,0 +1,23 @@
+name: Swift Setup
+description: Setup the environment for Swift development
+
+inputs:
+  swift-version:
+    description: "Swift version to set up"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Pull Swift
+      uses: swift-actions/setup-swift@v2
+      with:
+        swift-version: ${{ inputs.swift-version }}
+    - name: Swift Version
+      shell: bash
+      run: swift --version
+    - name: Install SwiftLint
+      shell: bash
+      run: |
+        brew install swiftlint 2>/dev/null && true
+        swiftlint --version

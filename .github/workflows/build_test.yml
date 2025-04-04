@@ -1,0 +1,48 @@
+name: 🛠️
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main, feature/**, fix/**, ci/**, docs/**, misc/**]
+
+env:
+  SWIFT_VERSION: 6.0
+  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
+
+jobs:
+  Build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Setup Swift
+        uses: ./.github/actions/swift-setup
+        with:
+          swift-version: ${{ env.SWIFT_VERSION }}
+      - name: SwiftLint
+        run: swiftlint lint --strict
+      - name: Build
+        run: swift build
+
+  Test:
+    runs-on: macos-15
+    needs: Build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Setup Swift
+        uses: ./.github/actions/swift-setup
+        with:
+          swift-version: ${{ env.SWIFT_VERSION }}
+      - name: Test
+        run: swift test --enable-code-coverage
+      - name: Code Coverage
+        uses: drekka/swift-coverage-action@v1
+        with:
+          coverage: 90

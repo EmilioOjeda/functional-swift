@@ -1,0 +1,39 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main, feature/**, fix/**, ci/**]
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: 6.0
+      - name: Swift Version
+        run: swift --version
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: SwiftLint
+        run: |
+          brew install swiftlint 2>/dev/null && true
+          swiftlint --version
+          swiftlint lint --strict
+      - name: Build
+        run: swift build
+      - name: Test
+        run: swift test --enable-code-coverage
+      - name: Code Coverage
+        uses: drekka/swift-coverage-action@v1
+        with:
+          coverage: 90

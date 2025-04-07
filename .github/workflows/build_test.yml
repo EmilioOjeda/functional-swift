@@ -8,12 +8,16 @@ on:
     branches: [main, feature/**, fix/**, ci/**, docs/**, misc/**]
 
 env:
-  SWIFT_VERSION: 6.0
   DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
 jobs:
-  Build:
-    runs-on: macos-15
+  package-build:
+    name: Build - Test - Coverage | swift ${{ matrix.swift-version }} on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-15]
+        swift-version: ["6.0"]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,25 +26,12 @@ jobs:
       - name: Setup Swift
         uses: ./.github/actions/swift-setup
         with:
-          swift-version: ${{ env.SWIFT_VERSION }}
+          swift-version: ${{ matrix.swift-version }}
       - name: SwiftLint
         run: swiftlint lint --strict
-      - name: Build
+      - name: Build (for swift ${{ matrix.swift-version }})
         run: swift build
-
-  Test:
-    runs-on: macos-15
-    needs: Build
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-      - name: Setup Swift
-        uses: ./.github/actions/swift-setup
-        with:
-          swift-version: ${{ env.SWIFT_VERSION }}
-      - name: Test
+      - name: Test (for swift ${{ matrix.swift-version }})
         run: swift test --enable-code-coverage
       - name: Code Coverage
         uses: drekka/swift-coverage-action@v1

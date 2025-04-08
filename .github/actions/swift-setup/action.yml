@@ -9,6 +9,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Runner OS ==> '${{ runner.os }}'"
+      shell: bash
+      run: echo "'${{ runner.os }}'"
     - name: Pull Swift
       uses: swift-actions/setup-swift@v2
       with:
@@ -16,8 +19,11 @@ runs:
     - name: Swift Version
       shell: bash
       run: swift --version
-    - name: Install SwiftLint
+    - name: Install SwiftLint ['macOS']
+      if: runner.os == 'macOS'
       shell: bash
-      run: |
-        brew install swiftlint 2>/dev/null && true
-        swiftlint --version
+      run: brew install swiftlint 2>/dev/null && true
+    - name: SwiftLint Version
+      if: runner.os == 'macOS'
+      shell: bash
+      run: swiftlint --version

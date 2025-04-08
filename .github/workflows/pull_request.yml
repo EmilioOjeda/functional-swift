@@ -9,9 +9,9 @@ on:
       - reopened
 
 jobs:
-  lint:
-    name: Lint Pull Request
-    runs-on: ubuntu-latest
+  lint-pull-request:
+    name: Conventional Commits Specification
+    runs-on: ubuntu-24.04
     permissions:
       pull-requests: read
     steps:

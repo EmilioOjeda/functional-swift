@@ -1,0 +1,32 @@
+name: 🛠️
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main, feature/**, fix/**, ci/**, docs/**, misc/**]
+      
+jobs:
+  test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-24.04]
+        swift-version: ["6.0"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      - name: Swift Setup
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: ${{ matrix.swift-version }}
+      - name: Test (for swift ${{ matrix.swift-version }})
+        run: swift test --enable-code-coverage
+      - name: Code Coverage
+        uses: drekka/swift-coverage-action@v1
+        with:
+          coverage: 90

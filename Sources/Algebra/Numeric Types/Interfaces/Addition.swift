@@ -3,8 +3,8 @@
 //  functional-swift
 //
 
-#if canImport(CoreFoundation)
-import CoreFoundation
+#if canImport(Foundation)
+import Foundation
 #endif
 
 // MARK: - Addition
@@ -45,7 +45,7 @@ extension Float: Addition {
     public static let zero: Float = 0
 }
 
-#if canImport(CoreFoundation)
+#if canImport(Foundation)
 extension CGFloat: Addition {
     public static let zero: CGFloat = 0
 }

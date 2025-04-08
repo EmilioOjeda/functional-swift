@@ -3,8 +3,8 @@
 //  functional-swift
 //
 
-#if canImport(CoreFoundation)
-import CoreFoundation
+#if canImport(Foundation)
+import Foundation
 #endif
 
 // MARK: - Multiplication
@@ -45,7 +45,7 @@ extension Float: Multiplication {
     public static let one: Float = 1
 }
 
-#if canImport(CoreFoundation)
+#if canImport(Foundation)
 extension CGFloat: Multiplication {
     public static let one: CGFloat = 1
 }

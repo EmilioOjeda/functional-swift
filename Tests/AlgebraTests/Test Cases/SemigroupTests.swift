@@ -4,9 +4,6 @@
 //
 
 @testable import Algebra
-#if canImport(CoreFoundation)
-import CoreFoundation
-#endif
 #if canImport(Foundation)
 import Foundation
 #endif
@@ -96,7 +93,7 @@ struct SemigroupTests {
         )
     }
 
-    #if canImport(CoreFoundation)
+    #if canImport(Foundation)
     @Test("Add<CGFloat>: Semigroup")
     func testAddCGFloat() async {
         #expect(
@@ -154,7 +151,7 @@ struct SemigroupTests {
         )
     }
 
-    #if canImport(CoreFoundation)
+    #if canImport(Foundation)
     @Test("Multiply<CGFloat>: Semigroup")
     func testMultiplyCGFloat() async {
         #expect(
